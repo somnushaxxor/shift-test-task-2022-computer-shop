@@ -1,7 +1,6 @@
 package ru.kolesnik.computershop.repository.entity;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -16,7 +15,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @Entity
 @Table(name = "pc_form_factors")
 public class PcFormFactor {
