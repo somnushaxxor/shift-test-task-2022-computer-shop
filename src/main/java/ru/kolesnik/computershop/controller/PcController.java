@@ -32,7 +32,7 @@ public class PcController {
     }
 
     @GetMapping
-    public List<Pc> getAllPCs() {
+    public List<Pc> getAllPcs() {
         return pcService.getAllPcs();
     }
 
