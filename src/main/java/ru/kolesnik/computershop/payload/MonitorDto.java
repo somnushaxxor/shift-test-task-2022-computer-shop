@@ -1,17 +1,16 @@
 package ru.kolesnik.computershop.payload;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PcDto extends ProductDto {
+public class MonitorDto extends ProductDto {
 
     @NotNull
-    @JsonProperty("form_factor")
-    private String formFactorName;
+    private BigDecimal diagonal;
 
 }

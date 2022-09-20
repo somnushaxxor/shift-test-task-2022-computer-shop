@@ -3,13 +3,14 @@ package ru.kolesnik.computershop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kolesnik.computershop.exception.ProductAlreadyExistsException;
-import ru.kolesnik.computershop.exception.ProductNotFound;
+import ru.kolesnik.computershop.exception.ProductNotFoundException;
 import ru.kolesnik.computershop.exception.UnknownLaptopSizeException;
 import ru.kolesnik.computershop.payload.LaptopDto;
 import ru.kolesnik.computershop.repository.LaptopRepository;
 import ru.kolesnik.computershop.repository.LaptopSizeRepository;
 import ru.kolesnik.computershop.repository.entity.Laptop;
 import ru.kolesnik.computershop.repository.entity.LaptopSize;
+import ru.kolesnik.computershop.repository.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +23,11 @@ public class LaptopService {
     private final LaptopSizeRepository laptopSizeRepository;
 
     public Laptop createLaptop(LaptopDto laptopDto) {
-        Optional<Laptop> sameLaptopOptional = laptopRepository.
+        Optional<Product> sameProductOptional = laptopRepository.
                 findBySeriesNumberAndManufacturerName(laptopDto.getSeriesNumber(), laptopDto.getManufacturerName());
         LaptopSize size = laptopSizeRepository.findBySizeValue(laptopDto.getSizeValue())
                 .orElseThrow(UnknownLaptopSizeException::new);
-        if (sameLaptopOptional.isPresent()) {
+        if (sameProductOptional.isPresent()) {
             throw new ProductAlreadyExistsException();
         } else {
             Laptop laptop = new Laptop(laptopDto.getSeriesNumber(), laptopDto.getManufacturerName(),
@@ -36,12 +37,12 @@ public class LaptopService {
     }
 
     public Laptop updateLaptopById(LaptopDto laptopDto, Long id) {
-        Laptop laptop = laptopRepository.findById(id).orElseThrow(ProductNotFound::new);
-        Optional<Laptop> sameLaptopOptional = laptopRepository.
+        Laptop laptop = laptopRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        Optional<Product> sameProductOptional = laptopRepository.
                 findBySeriesNumberAndManufacturerName(laptopDto.getSeriesNumber(), laptopDto.getManufacturerName());
         LaptopSize size = laptopSizeRepository.findBySizeValue(laptopDto.getSizeValue())
                 .orElseThrow(UnknownLaptopSizeException::new);
-        if (sameLaptopOptional.isPresent() && !sameLaptopOptional.get().getId().equals(id)) {
+        if (sameProductOptional.isPresent() && !sameProductOptional.get().getId().equals(id)) {
             throw new ProductAlreadyExistsException();
         } else {
             laptop.setSeriesNumber(laptopDto.getSeriesNumber());
@@ -54,7 +55,7 @@ public class LaptopService {
     }
 
     public Laptop deleteLaptopById(Long id) {
-        Laptop laptop = laptopRepository.findById(id).orElseThrow(ProductNotFound::new);
+        Laptop laptop = laptopRepository.findById(id).orElseThrow(ProductNotFoundException::new);
         laptopRepository.delete(laptop);
         return laptop;
     }
@@ -64,7 +65,7 @@ public class LaptopService {
     }
 
     public Laptop getLaptopById(Long id) {
-        return laptopRepository.findById(id).orElseThrow(ProductNotFound::new);
+        return laptopRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
 }

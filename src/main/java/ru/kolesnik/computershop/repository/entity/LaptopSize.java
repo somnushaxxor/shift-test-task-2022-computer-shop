@@ -6,10 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -24,6 +21,7 @@ public class LaptopSize {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "size_value")
     @NotNull
     @JsonProperty("value")
     private Integer sizeValue;

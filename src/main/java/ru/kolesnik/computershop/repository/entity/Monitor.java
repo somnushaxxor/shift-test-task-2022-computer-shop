@@ -1,13 +1,14 @@
 package ru.kolesnik.computershop.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -17,27 +18,23 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "pcs", uniqueConstraints = {@UniqueConstraint(columnNames = {"series_number", "manufacturer_name"})})
-public class Pc extends Product {
+@Table(name = "monitors", uniqueConstraints = {@UniqueConstraint(columnNames = {"series_number", "manufacturer_name"})})
+public class Monitor extends Product {
 
-    @ManyToOne
-    @JoinColumn(name = "form_factor_id")
     @NotNull
-    @JsonProperty("form_factor")
-    private PcFormFactor formFactor;
+    private BigDecimal diagonal;
 
-    public Pc(Long seriesNumber, String manufacturerName, BigDecimal price, Long numberInStock,
-              PcFormFactor formFactor) {
+    public Monitor(Long seriesNumber, String manufacturerName, BigDecimal price, Long numberInStock, BigDecimal diagonal) {
         super(seriesNumber, manufacturerName, price, numberInStock);
-        this.formFactor = formFactor;
+        this.diagonal = diagonal;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Pc pc = (Pc) o;
-        return id != null && Objects.equals(id, pc.id);
+        Monitor monitor = (Monitor) o;
+        return id != null && Objects.equals(id, monitor.id);
     }
 
     @Override

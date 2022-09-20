@@ -17,7 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "laptops", uniqueConstraints = {@UniqueConstraint(columnNames = {"series_number", "manufacturer_name"})})
-public final class Laptop extends Product {
+public class Laptop extends Product {
 
     @ManyToOne
     @JoinColumn(name = "size_id")
